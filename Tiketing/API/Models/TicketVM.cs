@@ -10,6 +10,8 @@ namespace API.Models
     public class TicketVM
     {
         public int id { get; set; }
+        public string name { get; set; }
         public string subject { get; set; }
+        public ICollection<DivisionVM> Division { get; set; }
     }
 }

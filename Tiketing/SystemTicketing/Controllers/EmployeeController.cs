@@ -1,11 +1,11 @@
-﻿using API.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Web;
 using System.Web.Mvc;
+using API.ViewModel;
 
 namespace SystemTicketing.Controllers
 {
@@ -15,36 +15,32 @@ namespace SystemTicketing.Controllers
 
         public EmployeeController()
         {
-            Client.BaseAddress = new Uri("http://localhost:56439/API/");
+            Client.BaseAddress = new Uri("https://brmapi.azurewebsites.net/API/");
             Client.DefaultRequestHeaders.Accept.Clear();
             Client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("ApplicationException/Json"));
         }
 
         // GET: Employee
-        public ActionResult Index()
-        {
-            return View(List());
-        }
 
-        public JsonResult List()
+        public JsonResult loadEmployee()
         {
-            IEnumerable<EmployeeVM> Employee = null;
-            var responTask = Client.GetAsync("Employee");
+            IEnumerable<EmployeeVM> employee = null;
+            var responTask = Client.GetAsync("Employees");
             responTask.Wait();
 
             var result = responTask.Result;
             if (result.IsSuccessStatusCode)
             {
-                var readTask = result.Content.ReadAsAsync<List<EmployeeVM>>();
+                var readTask = result.Content.ReadAsAsync<IEnumerable<EmployeeVM>>();
                 readTask.Wait();
-                Employee = readTask.Result;
+                employee = readTask.Result;
             }
             else
             {
-                Employee = Enumerable.Empty<EmployeeVM>();
+                employee = Enumerable.Empty<EmployeeVM>();
                 ModelState.AddModelError(string.Empty, "Server Error");
             }
-            return Json(Employee);
+            return Json(employee, JsonRequestBehavior.AllowGet);
         }
     }
 }

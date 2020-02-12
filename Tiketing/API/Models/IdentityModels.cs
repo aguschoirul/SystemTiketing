@@ -31,11 +31,7 @@ namespace API.Models
         public DbSet<EmployeeVM> Employee { get; set; }
         public DbSet<TicketVM> Ticket { get; set; }
         public DbSet<DivisionVM> Division { get; set; }
-        public DbSet<PICVM> PIC { get; set; }
-        public DbSet<SolvingVM> Solving { get; set; }
-        public DbSet<SubmissionVM> Submission { get; set; }
         public DbSet<ReportVM> Report { get; set; }
-
         
         public static ApplicationDbContext Create()
         {

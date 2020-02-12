@@ -1,0 +1,235 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Layout/Layout.cshtml";
+}
+
+<!-- ============================================================== -->
+<!-- Bread crumb and right sidebar toggle -->
+<!-- ============================================================== -->
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+    <li class="breadcrumb-item active">Division</li>
+</ol> 
+
+<div style="padding: 25px;" class="animated fadeIn">
+    <div class="row">
+        <div class="col-md-6">
+            <h5 style="font-size: 25px;">Division</h5>
+        </div>
+        <div class="col-md-6">
+            <button style="float: right; margin:5px" type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" data-backdrop="static" data-keyboard="false" onclick="ClearScreen();"><i class="fa fa-plus"></i>&nbsp;Add Data</button>
+        </div>
+    </div>
+    <hr>
+    <table id="table" align="center" class="table table-hover table-bordered table-responsive-sm table-striped">
+        <thead class="thead-light" style="text-align: center;">
+            <tr>
+                <th>ID</th>
+                <th>Category Name</th>
+                <th>Option</th>
+            </tr>
+        </thead>
+        <tbody style="opacity: 0.7;"></tbody>
+    </table>
+</div>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Add</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-md-12" style="border-right: 1px #eee solid">
+                            <label for="id" hidden>ID</label>
+                            <div class="input-group mb-3">
+                                <input id="divisionIdText" type="text" hidden class="form-control" placeholder="ID" required="">
+                            </div>
+                            <label for="name">Division Name</label>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1"><i class="fa fa-user"></i></span>
+                                </div>
+                                <input id="divisionNameText" type="text" class="form-control" placeholder="Divison Name" required="">
+                            </div>
+                            <div class="padding-top: 60px">
+                                <hr>
+                                <div class="form-group" align="right">
+                                    <button type="button" class="btn btn-success" id="Save" onclick="Validation();"><i class="fa fa-check"></i>&nbsp;&nbsp;Save</button>
+                                    <button type="button" class="btn btn-primary" id="Update" onclick="Validation();"><i class="fa fa-spinner"></i>&nbsp;&nbsp;Update</button>
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-close"></i>&nbsp;&nbsp;Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            debugger;
+            tabel = $("#table").DataTable({
+                "ajax": {
+                    "url": "/Division/List/",
+                    "type": "GET",
+                    "datatype": "json"
+                },
+                "columns": [
+                    { "data": "id" },
+                    { "data": "name" },
+                    {
+                        "render": function (data, type, row, meta) {
+                            return "<a onclick=GetById('" + row.id + "');><i class='fa fa-edit'></i></a> | <a onclick=Delete('" + row.id + "');><i class='fa fa-trash'></i></a>"
+                        }
+                    }
+                ]
+            });
+        });
+</script>
+<script>
+    function Save() {
+        debugger;
+        var division = new Object(); 
+        division.name = $("#divisionNameText").val();
+        $.ajax({
+            "url": "/Division/Create/",
+            "type": "POST",
+            "datatype": "json",
+            "data": division
+        }).then((result) => {
+            debugger;
+            if (result.data > 0) {
+                Swal.fire(
+                    'Success',
+                    'Your file has been Saved.',
+                    'success'
+                )
+            }
+            else {
+                Swal.fire(
+                    'Failed',
+                    'Your file not saved',
+                    'failed'
+                )
+            }
+        })
+        }
+
+    function ClearScreen() {
+        document.getElementById("divisionIdText").disabled = true;
+        $("divisionNameText").val('');
+        $("Update").hide();
+        $("Save").show();
+    }
+
+    function Validation() {
+        debugger;
+        if ($("#divisionNameText").val() == "" | $("#divisionNameText").val() == " ") {
+            Swal.fire('Please Fill Name');
+        }
+        else if ($("#divisionIdText").val() == "" | $("#divisionIdText").val() == " ") {
+            Save();
+        }
+        else {
+            Edit($("#divisionIdText").val());
+        }
+    }
+
+    function Delete(id) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.value) {
+                debugger
+                $.ajax({
+                    "url": "/Division/Delete",
+                    "dataType": "json",
+                    "data": { id: id }
+                }).then((hasil) => {
+                    debugger
+                    if (hasil.data[0] != 0) {
+                        Swal.fire({ 
+                            icon: 'success',
+                            title: 'Your data has been deleted',
+                            text: 'Deleted!',
+                            onclose: location.reload()
+                        })
+                    }
+                    else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Your data not deleted',
+                            text: 'Failed!'
+                        })
+                    }
+                })
+            }
+        })
+    }
+
+    function Edit() {
+        var division = new Object();
+        division.id = $("#divisionIdText").val();
+        division.name = $("#divisionNameText").val();
+        $.ajax({
+            "url": "/Division/Edit/",
+            "type": "GET",
+            "dataType": "json",
+            "data": division
+        }).then((result) => {
+            if (result.data > 0) {
+                Swal.fire(
+                    'Success!',
+                    'Your file has been update.',
+                    'success'
+                )
+            }
+            else {
+                Swal.fire(
+                    'Failed!',
+                    'Your file not updated.',
+                    'FAILED'
+                )
+            }
+            $("#myModal").modal('hide');
+        })
+    }
+
+    function GetById(id) {
+        $('#divisionNameText');
+        $.ajax({
+            url: "/Division/Detail/",
+            type: "GET",
+            contentType: "application/json",
+            dataType: "json",
+            data: { id: id },
+            success: function (result) {
+                $('#divisionIdText').val(result.data.id);
+                $('#divisionNameText').val(result.data.name);
+                $('#myModal').modal('show');
+                $('#Update').show();
+                $('#Save').hide();
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        })
+    }
+</script>
+}

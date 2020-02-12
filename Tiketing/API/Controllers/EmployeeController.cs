@@ -34,20 +34,25 @@ namespace API.Controllers
             return CreatedAtRoute("DefaultApi", new { id = employee.id }, employee);
         }
 
-        //[ResponseType(typeof(void))]
-        //public IHttpActionResult put(EmployeeVM employee, int id)
-        //{
-        //    var put = myContext.Employee.Find(id);
-        //    myContext.first_name = employee.first_name;
-        //    myContext.last_name = employee.last_name;
-        //    myContext.birthday = employee.birth_day;
-        //    myContext.gender = employee.gender;
-        //    myContext.email = employee.email;
-        //    myContext.phone = employee.phone;
-        //    myContext.Entry(put).State = EntityState.Modified;
-        //    myContext.SaveChanges();
+        [ResponseType(typeof(void))]
+        public IHttpActionResult Put(EmployeeVM employee, int id)
+        {
+            var put = myContext.Employee.Find(id);
+            put.first_name = employee.first_name;
+            myContext.Entry(put).State = EntityState.Modified;
+            myContext.SaveChanges();
 
-        //    return StatusCode(HttpStatusCode.NoContent);
-        //}
+            return StatusCode(HttpStatusCode.NoContent);
+        }
+
+        [ResponseType(typeof(void))]
+        public IHttpActionResult Delete(EmployeeVM employee, int id)
+        {
+            var del = myContext.Employee.Find(id);
+            myContext.Employee.Remove(del);
+            myContext.SaveChanges();
+
+            return Ok(del);
+        }
     }
 }

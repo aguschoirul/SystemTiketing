@@ -101,7 +101,11 @@ D:\Bootcamp\SystemTiketing\Tiketing\API\bin\Microsoft.AI.WindowsServer.xml
 D:\Bootcamp\SystemTiketing\Tiketing\API\bin\Microsoft.AI.Web.xml
 D:\Bootcamp\SystemTiketing\Tiketing\API\obj\Debug\API.Migrations.AddTicketing.resources
 D:\Bootcamp\SystemTiketing\Tiketing\API\obj\Debug\API.Migrations.addmodeldatabase.resources
+D:\Bootcamp\SystemTiketing\Tiketing\API\obj\Debug\API.Migrations.addforeignkey.resources
+D:\Bootcamp\SystemTiketing\Tiketing\API\obj\Debug\API.Migrations.addnewmigration.resources
 D:\Bootcamp\SystemTiketing\Tiketing\API\obj\Debug\API.csproj.GenerateResource.Cache
 D:\Bootcamp\SystemTiketing\Tiketing\API\obj\Debug\API.dll
 D:\Bootcamp\SystemTiketing\Tiketing\API\obj\Debug\API.pdb
+D:\Bootcamp\SystemTiketing\Tiketing\API\obj\Debug\API.Migrations.addnewfk.resources
 D:\Bootcamp\SystemTiketing\Tiketing\API\obj\Debug\API.csprojResolveAssemblyReference.cache
+D:\Bootcamp\SystemTiketing\Tiketing\API\obj\Debug\API.Migrations.deletepicmodels.resources

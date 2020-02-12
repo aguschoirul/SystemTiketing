@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -21,6 +22,7 @@
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
+    <TypeScriptToolsVersion>2.1</TypeScriptToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -41,6 +43,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -180,10 +183,11 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
+    <Compile Include="Controllers\DivisionController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Controllers\RolesController.cs" />
+    <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -195,6 +199,285 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="assets\animate\animate.css" />
+    <Content Include="assets\animate\animate.min.css" />
+    <Content Include="assets\animate\gulpfile.js" />
+    <Content Include="assets\animate\source\attention_seekers\bounce.css" />
+    <Content Include="assets\animate\source\attention_seekers\flash.css" />
+    <Content Include="assets\animate\source\attention_seekers\headShake.css" />
+    <Content Include="assets\animate\source\attention_seekers\jello.css" />
+    <Content Include="assets\animate\source\attention_seekers\pulse.css" />
+    <Content Include="assets\animate\source\attention_seekers\rubberBand.css" />
+    <Content Include="assets\animate\source\attention_seekers\shake.css" />
+    <Content Include="assets\animate\source\attention_seekers\swing.css" />
+    <Content Include="assets\animate\source\attention_seekers\tada.css" />
+    <Content Include="assets\animate\source\attention_seekers\wobble.css" />
+    <Content Include="assets\animate\source\bouncing_entrances\bounceIn.css" />
+    <Content Include="assets\animate\source\bouncing_entrances\bounceInDown.css" />
+    <Content Include="assets\animate\source\bouncing_entrances\bounceInLeft.css" />
+    <Content Include="assets\animate\source\bouncing_entrances\bounceInRight.css" />
+    <Content Include="assets\animate\source\bouncing_entrances\bounceInUp.css" />
+    <Content Include="assets\animate\source\bouncing_exits\bounceOut.css" />
+    <Content Include="assets\animate\source\bouncing_exits\bounceOutDown.css" />
+    <Content Include="assets\animate\source\bouncing_exits\bounceOutLeft.css" />
+    <Content Include="assets\animate\source\bouncing_exits\bounceOutRight.css" />
+    <Content Include="assets\animate\source\bouncing_exits\bounceOutUp.css" />
+    <Content Include="assets\animate\source\fading_entrances\fadeIn.css" />
+    <Content Include="assets\animate\source\fading_entrances\fadeInDown.css" />
+    <Content Include="assets\animate\source\fading_entrances\fadeInDownBig.css" />
+    <Content Include="assets\animate\source\fading_entrances\fadeInLeft.css" />
+    <Content Include="assets\animate\source\fading_entrances\fadeInLeftBig.css" />
+    <Content Include="assets\animate\source\fading_entrances\fadeInRight.css" />
+    <Content Include="assets\animate\source\fading_entrances\fadeInRightBig.css" />
+    <Content Include="assets\animate\source\fading_entrances\fadeInUp.css" />
+    <Content Include="assets\animate\source\fading_entrances\fadeInUpBig.css" />
+    <Content Include="assets\animate\source\fading_exits\fadeOut.css" />
+    <Content Include="assets\animate\source\fading_exits\fadeOutDown.css" />
+    <Content Include="assets\animate\source\fading_exits\fadeOutDownBig.css" />
+    <Content Include="assets\animate\source\fading_exits\fadeOutLeft.css" />
+    <Content Include="assets\animate\source\fading_exits\fadeOutLeftBig.css" />
+    <Content Include="assets\animate\source\fading_exits\fadeOutRight.css" />
+    <Content Include="assets\animate\source\fading_exits\fadeOutRightBig.css" />
+    <Content Include="assets\animate\source\fading_exits\fadeOutUp.css" />
+    <Content Include="assets\animate\source\fading_exits\fadeOutUpBig.css" />
+    <Content Include="assets\animate\source\flippers\flip.css" />
+    <Content Include="assets\animate\source\flippers\flipInX.css" />
+    <Content Include="assets\animate\source\flippers\flipInY.css" />
+    <Content Include="assets\animate\source\flippers\flipOutX.css" />
+    <Content Include="assets\animate\source\flippers\flipOutY.css" />
+    <Content Include="assets\animate\source\lightspeed\lightSpeedIn.css" />
+    <Content Include="assets\animate\source\lightspeed\lightSpeedOut.css" />
+    <Content Include="assets\animate\source\rotating_entrances\rotateIn.css" />
+    <Content Include="assets\animate\source\rotating_entrances\rotateInDownLeft.css" />
+    <Content Include="assets\animate\source\rotating_entrances\rotateInDownRight.css" />
+    <Content Include="assets\animate\source\rotating_entrances\rotateInUpLeft.css" />
+    <Content Include="assets\animate\source\rotating_entrances\rotateInUpRight.css" />
+    <Content Include="assets\animate\source\rotating_exits\rotateOut.css" />
+    <Content Include="assets\animate\source\rotating_exits\rotateOutDownLeft.css" />
+    <Content Include="assets\animate\source\rotating_exits\rotateOutDownRight.css" />
+    <Content Include="assets\animate\source\rotating_exits\rotateOutUpLeft.css" />
+    <Content Include="assets\animate\source\rotating_exits\rotateOutUpRight.css" />
+    <Content Include="assets\animate\source\sliding_entrances\slideInDown.css" />
+    <Content Include="assets\animate\source\sliding_entrances\slideInLeft.css" />
+    <Content Include="assets\animate\source\sliding_entrances\slideInRight.css" />
+    <Content Include="assets\animate\source\sliding_entrances\slideInUp.css" />
+    <Content Include="assets\animate\source\sliding_exits\slideOutDown.css" />
+    <Content Include="assets\animate\source\sliding_exits\slideOutLeft.css" />
+    <Content Include="assets\animate\source\sliding_exits\slideOutRight.css" />
+    <Content Include="assets\animate\source\sliding_exits\slideOutUp.css" />
+    <Content Include="assets\animate\source\specials\hinge.css" />
+    <Content Include="assets\animate\source\specials\jackInTheBox.css" />
+    <Content Include="assets\animate\source\specials\rollIn.css" />
+    <Content Include="assets\animate\source\specials\rollOut.css" />
+    <Content Include="assets\animate\source\zooming_entrances\zoomIn.css" />
+    <Content Include="assets\animate\source\zooming_entrances\zoomInDown.css" />
+    <Content Include="assets\animate\source\zooming_entrances\zoomInLeft.css" />
+    <Content Include="assets\animate\source\zooming_entrances\zoomInRight.css" />
+    <Content Include="assets\animate\source\zooming_entrances\zoomInUp.css" />
+    <Content Include="assets\animate\source\zooming_exits\zoomOut.css" />
+    <Content Include="assets\animate\source\zooming_exits\zoomOutDown.css" />
+    <Content Include="assets\animate\source\zooming_exits\zoomOutLeft.css" />
+    <Content Include="assets\animate\source\zooming_exits\zoomOutRight.css" />
+    <Content Include="assets\animate\source\zooming_exits\zoomOutUp.css" />
+    <Content Include="assets\animate\source\_base.css" />
+    <Content Include="assets\chart\Chart.bundle.js" />
+    <Content Include="assets\chart\Chart.bundle.min.js" />
+    <Content Include="assets\chart\Chart.js" />
+    <Content Include="assets\chart\Chart.min.js" />
+    <Content Include="assets\chart\samples\AnimationCallbacks\progress-bar.html" />
+    <Content Include="assets\chart\samples\bar-horizontal.html" />
+    <Content Include="assets\chart\samples\bar-multi-axis.html" />
+    <Content Include="assets\chart\samples\bar-stacked.html" />
+    <Content Include="assets\chart\samples\bar.html" />
+    <Content Include="assets\chart\samples\bubble.html" />
+    <Content Include="assets\chart\samples\combo-bar-line.html" />
+    <Content Include="assets\chart\samples\data_label_combo-bar-line.html" />
+    <Content Include="assets\chart\samples\different-point-sizes.html" />
+    <Content Include="assets\chart\samples\doughnut.html" />
+    <Content Include="assets\chart\samples\line-cubicInterpolationMode.html" />
+    <Content Include="assets\chart\samples\line-customTooltips.html" />
+    <Content Include="assets\chart\samples\line-legend.html" />
+    <Content Include="assets\chart\samples\line-logarithmic.html" />
+    <Content Include="assets\chart\samples\line-multi-axis.html" />
+    <Content Include="assets\chart\samples\line-multiline-labels.html" />
+    <Content Include="assets\chart\samples\line-non-numeric-y.html" />
+    <Content Include="assets\chart\samples\line-skip-points.html" />
+    <Content Include="assets\chart\samples\line-stacked-area.html" />
+    <Content Include="assets\chart\samples\line-stepped.html" />
+    <Content Include="assets\chart\samples\line-x-axis-filter.html" />
+    <Content Include="assets\chart\samples\line.html" />
+    <Content Include="assets\chart\samples\pie-customTooltips.html" />
+    <Content Include="assets\chart\samples\pie.html" />
+    <Content Include="assets\chart\samples\polar-area.html" />
+    <Content Include="assets\chart\samples\radar-skip-points.html" />
+    <Content Include="assets\chart\samples\radar.html" />
+    <Content Include="assets\chart\samples\scatter-logX.html" />
+    <Content Include="assets\chart\samples\scatter-multi-axis.html" />
+    <Content Include="assets\chart\samples\scatter.html" />
+    <Content Include="assets\chart\samples\timeScale\combo-time-scale.html" />
+    <Content Include="assets\chart\samples\timeScale\line-time-point-data.html" />
+    <Content Include="assets\chart\samples\timeScale\line-time-scale.html" />
+    <Content Include="assets\chart\samples\tooltip-hooks.html" />
+    <Content Include="assets\css\bootstrap-datepicker3.css" />
+    <Content Include="assets\css\bootstrap-grid.css" />
+    <Content Include="assets\css\bootstrap-grid.min.css" />
+    <Content Include="assets\css\bootstrap-reboot.css" />
+    <Content Include="assets\css\bootstrap-reboot.min.css" />
+    <Content Include="assets\css\bootstrap.css" />
+    <Content Include="assets\css\bootstrap.min.css" />
+    <Content Include="assets\css\index.html" />
+    <Content Include="assets\css\master.css" />
+    <Content Include="assets\css\mystyle.css" />
+    <Content Include="assets\css\mystylecss.css" />
+    <Content Include="assets\css\shadow.css" />
+    <Content Include="assets\css\stylebkp.css" />
+    <Content Include="assets\css\sweetalert.css" />
+    <Content Include="assets\css\tabs.css" />
+    <Content Include="assets\DataTables\DataTables-1.10.18\css\dataTables.bootstrap.css" />
+    <Content Include="assets\DataTables\DataTables-1.10.18\css\dataTables.bootstrap.min.css" />
+    <Content Include="assets\DataTables\DataTables-1.10.18\css\dataTables.bootstrap4.css" />
+    <Content Include="assets\DataTables\DataTables-1.10.18\css\dataTables.bootstrap4.min.css" />
+    <Content Include="assets\DataTables\DataTables-1.10.18\css\dataTables.foundation.css" />
+    <Content Include="assets\DataTables\DataTables-1.10.18\css\dataTables.foundation.min.css" />
+    <Content Include="assets\DataTables\DataTables-1.10.18\css\dataTables.jqueryui.css" />
+    <Content Include="assets\DataTables\DataTables-1.10.18\css\dataTables.jqueryui.min.css" />
+    <Content Include="assets\DataTables\DataTables-1.10.18\css\dataTables.semanticui.css" />
+    <Content Include="assets\DataTables\DataTables-1.10.18\css\dataTables.semanticui.min.css" />
+    <Content Include="assets\DataTables\DataTables-1.10.18\css\jquery.dataTables.css" />
+    <Content Include="assets\DataTables\DataTables-1.10.18\css\jquery.dataTables.min.css" />
+    <Content Include="assets\DataTables\DataTables-1.10.18\images\sort_asc.png" />
+    <Content Include="assets\DataTables\DataTables-1.10.18\images\sort_asc_disabled.png" />
+    <Content Include="assets\DataTables\DataTables-1.10.18\images\sort_both.png" />
+    <Content Include="assets\DataTables\DataTables-1.10.18\images\sort_desc.png" />
+    <Content Include="assets\DataTables\DataTables-1.10.18\images\sort_desc_disabled.png" />
+    <Content Include="assets\DataTables\DataTables-1.10.18\js\dataTables.bootstrap.js" />
+    <Content Include="assets\DataTables\DataTables-1.10.18\js\dataTables.bootstrap.min.js" />
+    <Content Include="assets\DataTables\DataTables-1.10.18\js\dataTables.bootstrap4.js" />
+    <Content Include="assets\DataTables\DataTables-1.10.18\js\dataTables.bootstrap4.min.js" />
+    <Content Include="assets\DataTables\DataTables-1.10.18\js\dataTables.foundation.js" />
+    <Content Include="assets\DataTables\DataTables-1.10.18\js\dataTables.foundation.min.js" />
+    <Content Include="assets\DataTables\DataTables-1.10.18\js\dataTables.jqueryui.js" />
+    <Content Include="assets\DataTables\DataTables-1.10.18\js\dataTables.jqueryui.min.js" />
+    <Content Include="assets\DataTables\DataTables-1.10.18\js\dataTables.semanticui.js" />
+    <Content Include="assets\DataTables\DataTables-1.10.18\js\dataTables.semanticui.min.js" />
+    <Content Include="assets\DataTables\DataTables-1.10.18\js\jquery.dataTables.js" />
+    <Content Include="assets\DataTables\DataTables-1.10.18\js\jquery.dataTables.min.js" />
+    <Content Include="assets\DataTables\datatables.css" />
+    <Content Include="assets\DataTables\datatables.js" />
+    <Content Include="assets\DataTables\datatables.min.css" />
+    <Content Include="assets\DataTables\datatables.min.js" />
+    <Content Include="assets\date\css\datepicker.css" />
+    <Content Include="assets\date\js\bootstrap-datepicker.js" />
+    <Content Include="assets\fontawesome\css\font-awesome.css" />
+    <Content Include="assets\fontawesome\css\font-awesome.min.css" />
+    <Content Include="assets\fontawesome\fonts\fontawesome-webfont.svg" />
+    <Content Include="assets\js\bootbox.min.js" />
+    <Content Include="assets\js\bootstrap-confirmation.js" />
+    <Content Include="assets\js\bootstrap-confirmation.min.js" />
+    <Content Include="assets\js\bootstrap-datepicker.js" />
+    <Content Include="assets\js\bootstrap.bundle.js" />
+    <Content Include="assets\js\bootstrap.bundle.min.js" />
+    <Content Include="assets\js\bootstrap.js" />
+    <Content Include="assets\js\bootstrap.min.js" />
+    <Content Include="assets\js\bootstrap.min2.js" />
+    <Content Include="assets\js\bootstrap.mins.js" />
+    <Content Include="assets\js\jquery-3.2.0.min.js" />
+    <Content Include="assets\js\jquery-3.3.1.min.js" />
+    <Content Include="assets\js\master.js" />
+    <Content Include="assets\js\moment.min.js" />
+    <Content Include="assets\js\popper.js" />
+    <Content Include="assets\js\popper.min.js" />
+    <Content Include="assets\js\sweetalert2.all.min.js" />
+    <Content Include="assets\pdf\changelog.htm" />
+    <Content Include="assets\pdf\doc\acceptpagebreak.htm" />
+    <Content Include="assets\pdf\doc\addfont.htm" />
+    <Content Include="assets\pdf\doc\addlink.htm" />
+    <Content Include="assets\pdf\doc\addpage.htm" />
+    <Content Include="assets\pdf\doc\aliasnbpages.htm" />
+    <Content Include="assets\pdf\doc\cell.htm" />
+    <Content Include="assets\pdf\doc\close.htm" />
+    <Content Include="assets\pdf\doc\error.htm" />
+    <Content Include="assets\pdf\doc\footer.htm" />
+    <Content Include="assets\pdf\doc\fpdf.htm" />
+    <Content Include="assets\pdf\doc\getstringwidth.htm" />
+    <Content Include="assets\pdf\doc\getx.htm" />
+    <Content Include="assets\pdf\doc\gety.htm" />
+    <Content Include="assets\pdf\doc\header.htm" />
+    <Content Include="assets\pdf\doc\image.htm" />
+    <Content Include="assets\pdf\doc\index.htm" />
+    <Content Include="assets\pdf\doc\line.htm" />
+    <Content Include="assets\pdf\doc\link.htm" />
+    <Content Include="assets\pdf\doc\ln.htm" />
+    <Content Include="assets\pdf\doc\multicell.htm" />
+    <Content Include="assets\pdf\doc\output.htm" />
+    <Content Include="assets\pdf\doc\pageno.htm" />
+    <Content Include="assets\pdf\doc\rect.htm" />
+    <Content Include="assets\pdf\doc\setauthor.htm" />
+    <Content Include="assets\pdf\doc\setautopagebreak.htm" />
+    <Content Include="assets\pdf\doc\setcompression.htm" />
+    <Content Include="assets\pdf\doc\setcreator.htm" />
+    <Content Include="assets\pdf\doc\setdisplaymode.htm" />
+    <Content Include="assets\pdf\doc\setdrawcolor.htm" />
+    <Content Include="assets\pdf\doc\setfillcolor.htm" />
+    <Content Include="assets\pdf\doc\setfont.htm" />
+    <Content Include="assets\pdf\doc\setfontsize.htm" />
+    <Content Include="assets\pdf\doc\setkeywords.htm" />
+    <Content Include="assets\pdf\doc\setleftmargin.htm" />
+    <Content Include="assets\pdf\doc\setlinewidth.htm" />
+    <Content Include="assets\pdf\doc\setlink.htm" />
+    <Content Include="assets\pdf\doc\setmargins.htm" />
+    <Content Include="assets\pdf\doc\setrightmargin.htm" />
+    <Content Include="assets\pdf\doc\setsubject.htm" />
+    <Content Include="assets\pdf\doc\settextcolor.htm" />
+    <Content Include="assets\pdf\doc\settitle.htm" />
+    <Content Include="assets\pdf\doc\settopmargin.htm" />
+    <Content Include="assets\pdf\doc\setx.htm" />
+    <Content Include="assets\pdf\doc\setxy.htm" />
+    <Content Include="assets\pdf\doc\sety.htm" />
+    <Content Include="assets\pdf\doc\text.htm" />
+    <Content Include="assets\pdf\doc\write.htm" />
+    <Content Include="assets\pdf\FAQ.htm" />
+    <Content Include="assets\pdf\font\courier.php" />
+    <Content Include="assets\pdf\font\courierb.php" />
+    <Content Include="assets\pdf\font\courierbi.php" />
+    <Content Include="assets\pdf\font\courieri.php" />
+    <Content Include="assets\pdf\font\helvetica.php" />
+    <Content Include="assets\pdf\font\helveticab.php" />
+    <Content Include="assets\pdf\font\helveticabi.php" />
+    <Content Include="assets\pdf\font\helveticai.php" />
+    <Content Include="assets\pdf\font\symbol.php" />
+    <Content Include="assets\pdf\font\times.php" />
+    <Content Include="assets\pdf\font\timesb.php" />
+    <Content Include="assets\pdf\font\timesbi.php" />
+    <Content Include="assets\pdf\font\timesi.php" />
+    <Content Include="assets\pdf\font\zapfdingbats.php" />
+    <Content Include="assets\pdf\fpdf.css" />
+    <Content Include="assets\pdf\fpdf.php" />
+    <Content Include="assets\pdf\install.txt" />
+    <Content Include="assets\pdf\license.txt" />
+    <Content Include="assets\pdf\makefont\makefont.php" />
+    <Content Include="assets\pdf\makefont\ttfparser.php" />
+    <Content Include="assets\pdf\tutorial\20k_c1.txt" />
+    <Content Include="assets\pdf\tutorial\20k_c2.txt" />
+    <Content Include="assets\pdf\tutorial\calligra.php" />
+    <Content Include="assets\pdf\tutorial\countries.txt" />
+    <Content Include="assets\pdf\tutorial\index.htm" />
+    <Content Include="assets\pdf\tutorial\logo.png" />
+    <Content Include="assets\pdf\tutorial\makefont.php" />
+    <Content Include="assets\pdf\tutorial\tuto1.htm" />
+    <Content Include="assets\pdf\tutorial\tuto1.php" />
+    <Content Include="assets\pdf\tutorial\tuto2.htm" />
+    <Content Include="assets\pdf\tutorial\tuto2.php" />
+    <Content Include="assets\pdf\tutorial\tuto3.htm" />
+    <Content Include="assets\pdf\tutorial\tuto3.php" />
+    <Content Include="assets\pdf\tutorial\tuto4.htm" />
+    <Content Include="assets\pdf\tutorial\tuto4.php" />
+    <Content Include="assets\pdf\tutorial\tuto5.htm" />
+    <Content Include="assets\pdf\tutorial\tuto5.php" />
+    <Content Include="assets\pdf\tutorial\tuto6.htm" />
+    <Content Include="assets\pdf\tutorial\tuto6.php" />
+    <Content Include="assets\pdf\tutorial\tuto7.htm" />
+    <Content Include="assets\pdf\tutorial\tuto7.php" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="favicon.ico" />
@@ -203,6 +486,84 @@
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="assets\animate\animate-config.json" />
+    <Content Include="assets\animate\bower.json" />
+    <Content Include="assets\animate\LICENSE" />
+    <Content Include="assets\animate\package.json" />
+    <Content Include="assets\animate\README.md" />
+    <Content Include="assets\animate\_editorconfig" />
+    <Content Include="assets\animate\_gitignore" />
+    <Content Include="assets\animate\_prettierignore" />
+    <Content Include="assets\animate\_travis.yml" />
+    <Content Include="assets\chart\LICENSE.md" />
+    <Content Include="assets\css\bootstrap-grid.css.map" />
+    <Content Include="assets\css\bootstrap-grid.min.css.map" />
+    <Content Include="assets\css\bootstrap-reboot.css.map" />
+    <Content Include="assets\css\bootstrap-reboot.min.css.map" />
+    <Content Include="assets\css\bootstrap.css.map" />
+    <Content Include="assets\css\bootstrap.min.css.map" />
+    <Content Include="assets\date\less\datepicker.less" />
+    <Content Include="assets\fontawesome\fonts\fontawesome-webfont.eot" />
+    <Content Include="assets\fontawesome\fonts\fontawesome-webfont.ttf" />
+    <Content Include="assets\fontawesome\fonts\fontawesome-webfont.woff" />
+    <Content Include="assets\fontawesome\fonts\fontawesome-webfont.woff2" />
+    <Content Include="assets\fontawesome\fonts\FontAwesome.otf" />
+    <Content Include="assets\fontawesome\less\animated.less" />
+    <Content Include="assets\fontawesome\less\bordered-pulled.less" />
+    <Content Include="assets\fontawesome\less\core.less" />
+    <Content Include="assets\fontawesome\less\fixed-width.less" />
+    <Content Include="assets\fontawesome\less\font-awesome.less" />
+    <Content Include="assets\fontawesome\less\icons.less" />
+    <Content Include="assets\fontawesome\less\larger.less" />
+    <Content Include="assets\fontawesome\less\list.less" />
+    <Content Include="assets\fontawesome\less\mixins.less" />
+    <Content Include="assets\fontawesome\less\path.less" />
+    <Content Include="assets\fontawesome\less\rotated-flipped.less" />
+    <Content Include="assets\fontawesome\less\screen-reader.less" />
+    <Content Include="assets\fontawesome\less\stacked.less" />
+    <Content Include="assets\fontawesome\less\variables.less" />
+    <Content Include="assets\fontawesome\scss\font-awesome.scss" />
+    <Content Include="assets\fontawesome\scss\_animated.scss" />
+    <Content Include="assets\fontawesome\scss\_bordered-pulled.scss" />
+    <Content Include="assets\fontawesome\scss\_core.scss" />
+    <Content Include="assets\fontawesome\scss\_fixed-width.scss" />
+    <Content Include="assets\fontawesome\scss\_icons.scss" />
+    <Content Include="assets\fontawesome\scss\_larger.scss" />
+    <Content Include="assets\fontawesome\scss\_list.scss" />
+    <Content Include="assets\fontawesome\scss\_mixins.scss" />
+    <Content Include="assets\fontawesome\scss\_path.scss" />
+    <Content Include="assets\fontawesome\scss\_rotated-flipped.scss" />
+    <Content Include="assets\fontawesome\scss\_screen-reader.scss" />
+    <Content Include="assets\fontawesome\scss\_stacked.scss" />
+    <Content Include="assets\fontawesome\scss\_variables.scss" />
+    <Content Include="assets\js\bootstrap-confirmation.js.map" />
+    <Content Include="assets\js\bootstrap-confirmation.min.js.map" />
+    <Content Include="assets\js\bootstrap.bundle.js.map" />
+    <Content Include="assets\js\bootstrap.bundle.min.js.map" />
+    <Content Include="assets\js\bootstrap.js.map" />
+    <Content Include="assets\js\bootstrap.min.js.map" />
+    <Content Include="assets\pdf\makefont\cp1250.map" />
+    <Content Include="assets\pdf\makefont\cp1251.map" />
+    <Content Include="assets\pdf\makefont\cp1252.map" />
+    <Content Include="assets\pdf\makefont\cp1253.map" />
+    <Content Include="assets\pdf\makefont\cp1254.map" />
+    <Content Include="assets\pdf\makefont\cp1255.map" />
+    <Content Include="assets\pdf\makefont\cp1257.map" />
+    <Content Include="assets\pdf\makefont\cp1258.map" />
+    <Content Include="assets\pdf\makefont\cp874.map" />
+    <Content Include="assets\pdf\makefont\iso-8859-1.map" />
+    <Content Include="assets\pdf\makefont\iso-8859-11.map" />
+    <Content Include="assets\pdf\makefont\iso-8859-15.map" />
+    <Content Include="assets\pdf\makefont\iso-8859-16.map" />
+    <Content Include="assets\pdf\makefont\iso-8859-2.map" />
+    <Content Include="assets\pdf\makefont\iso-8859-4.map" />
+    <Content Include="assets\pdf\makefont\iso-8859-5.map" />
+    <Content Include="assets\pdf\makefont\iso-8859-7.map" />
+    <Content Include="assets\pdf\makefont\iso-8859-9.map" />
+    <Content Include="assets\pdf\makefont\koi8-r.map" />
+    <Content Include="assets\pdf\makefont\koi8-u.map" />
+    <Content Include="assets\pdf\tutorial\calligra.ttf" />
+    <Content Include="assets\pdf\tutorial\calligra.z" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -214,7 +575,9 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -248,13 +611,15 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Layout\Layout.cshtml" />
+    <Content Include="Views\Dashboard\Index.cshtml" />
+    <Content Include="Views\Division\Index.cshtml" />
+    <Content Include="Views\Role\Index.cshtml" />
+    <Content Include="Views\User\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Dashboard\" />
     <Folder Include="Views\Employee\" />
-    <Folder Include="Views\Roles\" />
-    <Folder Include="Views\User\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -277,11 +642,15 @@
       <Name>API</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
   <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
