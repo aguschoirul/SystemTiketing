@@ -1,0 +1,35 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Layout/Layout.cshtml";
+}
+
+<!-- ============================================================== -->
+<!-- Bread crumb and right sidebar toggle -->
+<!-- ============================================================== -->
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+    <li class="breadcrumb-item active">User</li>
+</ol>
+
+<div style="padding: 25px;" class="animated fadeIn">
+    <div class="row">
+        <div class="col-md-6">
+            <h5 style="font-size: 25px;">User</h5>
+        </div>
+        <div class="col-md-6">
+            <button style="float: right; margin:5px" type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" onclick="Screen();" data-backdrop="static" data-keyboard="false"><i class="fa fa-plus"></i>&nbsp;Add Data</button>
+        </div>
+    </div>
+    <hr>
+    <table id="table" align="center" class="table table-hover table-bordered table-responsive-sm table-striped">
+        <thead class="thead-light" style="text-align: center;">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Password</th>
+                <th>Option</th>
+            </tr>
+        </thead>
+        <tbody style="opacity: 0.7;"></tbody>
+    </table>
+</div>

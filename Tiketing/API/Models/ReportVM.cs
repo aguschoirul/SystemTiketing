@@ -12,6 +12,5 @@ namespace API.Models
         public int id { get; set; }
         public DateTime reportdate { get; set; }
         public string details { get; set; }
-        public ICollection<SubmissionVM> Submission { get; set; }
     }
 }

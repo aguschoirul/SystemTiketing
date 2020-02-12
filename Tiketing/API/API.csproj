@@ -228,9 +228,12 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\DashboardController.cs" />
+    <Compile Include="Controllers\DivisionController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\RolesController.cs" />
+    <Compile Include="Controllers\RoleController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -243,16 +246,29 @@
     <Compile Include="Migrations\202002070936266_addmodel-database.Designer.cs">
       <DependentUpon>202002070936266_addmodel-database.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202002081447554_addforeignkey.cs" />
+    <Compile Include="Migrations\202002081447554_addforeignkey.designer.cs">
+      <DependentUpon>202002081447554_addforeignkey.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002100131133_addnewmigration.cs" />
+    <Compile Include="Migrations\202002100131133_addnewmigration.designer.cs">
+      <DependentUpon>202002100131133_addnewmigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002110715468_addnewfk.cs" />
+    <Compile Include="Migrations\202002110715468_addnewfk.designer.cs">
+      <DependentUpon>202002110715468_addnewfk.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002111248218_deletepicmodels.cs" />
+    <Compile Include="Migrations\202002111248218_deletepicmodels.designer.cs">
+      <DependentUpon>202002111248218_deletepicmodels.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\DivisionVM.cs" />
     <Compile Include="Models\EmployeeVM.cs" />
     <Compile Include="Models\IdentityModels.cs" />
-    <Compile Include="Models\PICVM.cs" />
     <Compile Include="Models\ReportVM.cs" />
-    <Compile Include="Models\SolvingVM.cs" />
-    <Compile Include="Models\SubmissionVM.cs" />
     <Compile Include="Models\UserVM.cs" />
     <Compile Include="Models\RoleVM.cs" />
     <Compile Include="Models\TicketVM.cs" />
@@ -260,6 +276,7 @@
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModel\EmployeeVM.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
@@ -322,6 +339,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Division\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -344,6 +362,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202002070936266_addmodel-database.resx">
       <DependentUpon>202002070936266_addmodel-database.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002081447554_addforeignkey.resx">
+      <DependentUpon>202002081447554_addforeignkey.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002100131133_addnewmigration.resx">
+      <DependentUpon>202002100131133_addnewmigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002110715468_addnewfk.resx">
+      <DependentUpon>202002110715468_addnewfk.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002111248218_deletepicmodels.resx">
+      <DependentUpon>202002111248218_deletepicmodels.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
